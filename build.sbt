@@ -18,12 +18,21 @@ libraryDependencies ++=
   "com.android.support.test" % "runner" % "0.5" % "androidTest" ::
   "com.android.support.test.espresso" % "espresso-core" % "2.2.2" % "androidTest" ::
   "org.scala-lang" % "scala-compiler" % "2.11.8" ::
-  //"org.scala-lang" % "scala-reflect" % "2.11.8" ::
+  "org.scala-lang" % "scala-reflect" % "2.11.8" ::
   "org.scala-lang.modules" %% "scala-xml" % "1.0.6" ::
   Nil
 
-proguardOptions ++= Seq("-dontobfuscate", "-keepattributes InnerClasses"/*, "-dontwarn scala.xml.**"*/)
+proguardOptions ++=
+  //"-dontobfuscate" ::
+  "-keepattributes InnerClasses" ::
+  "-keep interface java.rmi.** { *; }" ::
+  "-keep class org.pfcoperez.scalarepl.** { *; }" ::
+  "-keep class scala.reflect.** { *; }" ::
+  "-keep class scala.** { *; }" ::
+  //"-keep class scala.**" ::
+  Nil
+
+dexAdditionalParams += "--core-library"
 
 dexMaxHeap in Android :="4096M"
-
 dexMulti in Android := true
